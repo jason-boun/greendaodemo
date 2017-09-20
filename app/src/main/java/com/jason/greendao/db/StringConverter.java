@@ -1,6 +1,7 @@
-package com.jason.greendao.dao;
+package com.jason.greendao.db;
 
-import android.text.TextUtils;
+
+import com.jason.greendao.utils.StringUtil;
 
 import org.greenrobot.greendao.converter.PropertyConverter;
 
@@ -9,12 +10,14 @@ import java.util.List;
 
 /**
  * Created by JiaBo on 2017/9/19.
+ * 列表对象和字符串之间的转换器
  */
 
 public class StringConverter implements PropertyConverter<List<String>, String> {
+
     @Override
     public List<String> convertToEntityProperty(String databaseValue) {
-        if (TextUtils.isEmpty(databaseValue)) {
+        if (StringUtil.isBlank(databaseValue)) {
             return null;
         }
         return Arrays.asList(databaseValue.split(","));
