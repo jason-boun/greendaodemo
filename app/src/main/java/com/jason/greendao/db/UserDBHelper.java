@@ -36,12 +36,11 @@ public class UserDBHelper {
     /**
      * 插入一条数据
      *
-     * @param context
      * @param user
      */
-    public static void insertUser(Context context, User user) {
+    public static void insertUser(User user) {
         try {
-            DBManager.getInstance(context).getUserDao().insert(user);
+            DBManager.getInstance().getUserDao().insert(user);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -50,12 +49,11 @@ public class UserDBHelper {
     /**
      * 插入数据列表
      *
-     * @param context
      * @param userList
      */
-    public static void insertUerList(Context context, List<User> userList) {
+    public static void insertUerList(List<User> userList) {
         try {
-            DBManager.getInstance(context).getUserDao().insertInTx(userList);
+            DBManager.getInstance().getUserDao().insertInTx(userList);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -64,17 +62,16 @@ public class UserDBHelper {
     /**
      * 删除指定字段对应的数据
      *
-     * @param context
      * @param name
      */
-    public static void deleteUserByName(Context context, String name) {
+    public static void deleteUserByName(String name) {
         if (StringUtil.isBlank(name)) {
             return;
         }
         try {
-            User user = queryUserByName(context, name);
+            User user = queryUserByName(name);
             if (user != null) {
-                DBManager.getInstance(context).getUserDao().delete(user);
+                DBManager.getInstance().getUserDao().delete(user);
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
@@ -90,7 +87,7 @@ public class UserDBHelper {
      */
     public static void updateUser(Context context, User user) {
         try {
-            DBManager.getInstance(context).getUserDao().update(user);
+            DBManager.getInstance().getUserDao().update(user);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -99,13 +96,12 @@ public class UserDBHelper {
     /**
      * 查询指定id的数据
      *
-     * @param context
      * @param userId
      * @return
      */
-    public static User queryUser(Context context, String userId) {
+    public static User queryUser(String userId) {
         try {
-            return DBManager.getInstance(context).getUserDao().queryBuilder().where(UserDao.Properties.UserId.eq(userId)).unique();
+            return DBManager.getInstance().getUserDao().queryBuilder().where(UserDao.Properties.UserId.eq(userId)).unique();
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -115,13 +111,12 @@ public class UserDBHelper {
     /**
      * 查询指定id的数据
      *
-     * @param context
      * @param name
      * @return
      */
-    public static User queryUserByName(Context context, String name) {
+    public static User queryUserByName(String name) {
         try {
-            return DBManager.getInstance(context).getUserDao().queryBuilder().where(UserDao.Properties.Name.eq(name)).unique();
+            return DBManager.getInstance().getUserDao().queryBuilder().where(UserDao.Properties.Name.eq(name)).unique();
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -131,13 +126,12 @@ public class UserDBHelper {
     /**
      * 查询指定字段的所有数据
      *
-     * @param context
      * @param name
      * @return
      */
-    public static List<User> queryUserList(Context context, String name) {
+    public static List<User> queryUserList(String name) {
         try {
-            QueryBuilder qb = DBManager.getInstance(context).getUserDao().queryBuilder();
+            QueryBuilder qb = DBManager.getInstance().getUserDao().queryBuilder();
             qb.where(UserDao.Properties.Name.eq(name), UserDao.Properties.Age.gt(1970));
             qb.orderAsc(UserDao.Properties.Index);
             return qb.list();
@@ -150,12 +144,11 @@ public class UserDBHelper {
     /**
      * 查询所有数据
      *
-     * @param context
      * @return
      */
-    public static List<User> queryUsers(Context context) {
+    public static List<User> queryUsers() {
         try {
-            return DBManager.getInstance(context).getUserDao().queryBuilder().list();
+            return DBManager.getInstance().getUserDao().queryBuilder().list();
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -165,12 +158,11 @@ public class UserDBHelper {
     /**
      * 删除所有数据
      *
-     * @param context
      * @return
      */
-    public static void deleteAll(Context context) {
+    public static void deleteAll() {
         try {
-            DBManager.getInstance(context).getUserDao().deleteAll();
+            DBManager.getInstance().getUserDao().deleteAll();
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

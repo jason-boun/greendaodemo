@@ -3,6 +3,8 @@ package com.jason.greendao.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.jason.greendao.base.MyApplication;
+
 /**
  * Created by JiaBo on 2017/9/19.
  * 数据库管理与操作的入口类
@@ -14,11 +16,11 @@ public class DBManager {
 
     private static volatile DBManager instance;
 
-    public static DBManager getInstance(Context context) {
+    public static DBManager getInstance() {
         if (instance == null) {
             synchronized (DBManager.class) {
                 if (instance == null) {
-                    instance = new DBManager(context);
+                    instance = new DBManager();
                 }
             }
         }
@@ -30,8 +32,8 @@ public class DBManager {
     private DaoMaster daoMaster;
     private DaoSession daoSession;
 
-    private DBManager(Context context) {
-        openHelper = new DaoMaster.DevOpenHelper(context, DATABASE_NAME, null);
+    private DBManager() {
+        openHelper = new DaoMaster.DevOpenHelper(MyApplication.getAppContext(), DATABASE_NAME, null);
         sqLiteDatabase = openHelper.getWritableDatabase();
         daoMaster = new DaoMaster(sqLiteDatabase);
         daoSession = daoMaster.newSession();

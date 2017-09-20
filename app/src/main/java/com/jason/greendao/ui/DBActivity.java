@@ -74,8 +74,8 @@ public class DBActivity extends Activity {
     }
 
     private void deleteAll() {
-        UserDBHelper.deleteAll(this);
-        if (UserDBHelper.queryUsers(this).size() == 0) {
+        UserDBHelper.deleteAll();
+        if (UserDBHelper.queryUsers().size() == 0) {
             sourceDataList.clear();
             queryDataList.clear();
             tvContent.setText("删除完毕");
@@ -90,8 +90,9 @@ public class DBActivity extends Activity {
         if (sourceDataList.size() > 41) {
             return;
         }
-        sourceDataList.addAll(UserDBHelper.buildUserData());
-        UserDBHelper.insertUerList(this, sourceDataList);
+        List<User>  temp = UserDBHelper.buildUserData();
+        sourceDataList.addAll(temp);
+        UserDBHelper.insertUerList(temp);
         Toast.makeText(this, "操作成功", Toast.LENGTH_SHORT).show();
     }
 
@@ -105,9 +106,9 @@ public class DBActivity extends Activity {
         }
         User user = queryDataList.get(0);
 
-        User result1 = UserDBHelper.queryUserByName(this, user.getName());
-        UserDBHelper.deleteUserByName(this, user.getName());
-        User result2 = UserDBHelper.queryUserByName(this, user.getName());
+        User result1 = UserDBHelper.queryUserByName(user.getName());
+        UserDBHelper.deleteUserByName(user.getName());
+        User result2 = UserDBHelper.queryUserByName(user.getName());
         if (result1 != null && result2 == null) {
             tvContent.setText("删除了用户：" + user.getName() + "；userId为" + user.getUserId());
             queryDataList.remove(user);
@@ -128,7 +129,7 @@ public class DBActivity extends Activity {
         user.setName(newName);
 
         UserDBHelper.updateUser(this, user);
-        User queryUser = UserDBHelper.queryUserByName(this, newName);
+        User queryUser = UserDBHelper.queryUserByName(newName);
 
         if (queryUser != null) {
             tvContent.setText("修改了用户：" + oldName + "；新的用户名为：" + queryUser.getName());
@@ -140,7 +141,7 @@ public class DBActivity extends Activity {
      */
     private void findDataAll() {
         queryDataList.clear();
-        List<User> results = UserDBHelper.queryUsers(this);
+        List<User> results = UserDBHelper.queryUsers();
         if (results.size() == 0) {
             tvContent.setText("数据为空");
         } else {
@@ -153,7 +154,7 @@ public class DBActivity extends Activity {
      * 展示所有数据
      */
     private void showAllData() {
-        List<User> results = UserDBHelper.queryUsers(this);
+        List<User> results = UserDBHelper.queryUsers();
         if (results.size() == 0) {
             tvContent.setText("数据为空");
         }else {
